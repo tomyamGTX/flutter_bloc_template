@@ -14,14 +14,21 @@ class HomePage extends StatelessWidget {
         title: const Text('Flutter Bloc Template'),
         actions: [
           BlocBuilder<ThemeCubit, ThemeMode>(
-            builder: (context, theme) => IconButton(
-              onPressed: () {
-                context.read<ThemeCubit>().toggleTheme();
-              },
-              icon: Icon(
-                theme == ThemeMode.dark ? Icons.sunny : Icons.nightlight,
-              ),
-            ),
+            builder: (context, themeMode) {
+              final isDark = themeMode == ThemeMode.dark;
+
+              return Switch.adaptive(
+                value: isDark,
+                thumbIcon: WidgetStateProperty.resolveWith<Icon?>((states) {
+                  if (isDark) {
+                    return const Icon(Icons.nightlight, color: Colors.white);
+                  } else {
+                    return const Icon(Icons.wb_sunny, color: Colors.yellow);
+                  }
+                }),
+                onChanged: (_) => context.read<ThemeCubit>().toggleTheme(),
+              );
+            },
           ),
         ],
       ),
