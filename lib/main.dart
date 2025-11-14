@@ -1,10 +1,17 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_bloc_template/bloc/counter_cubit.dart';
-import 'package:flutter_bloc_template/bloc/theme_cubit.dart';
-import 'package:flutter_bloc_template/screens/home_page.dart';
+import 'package:flutter_bloc_template/core/widgets/auth_gate.dart';
+import 'package:flutter_bloc_template/features/auth/repository/firebase_auth_repository.dart';
+import 'package:flutter_bloc_template/theme/theme_cubit.dart';
 
-void main() {
+import 'features/auth/cubit/auth_cubit.dart';
+import 'features/counter/cubit/counter_cubit.dart';
+import 'firebase_options.dart';
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const FlutterBlocTemplate());
 }
 
@@ -17,6 +24,7 @@ class FlutterBlocTemplate extends StatelessWidget {
       providers: [
         BlocProvider(create: (_) => CounterCubit()),
         BlocProvider(create: (_) => ThemeCubit()),
+        BlocProvider(create: (_) => AuthCubit(FirebaseAuthRepository())),
       ],
       child: BlocBuilder<ThemeCubit, ThemeMode>(
         builder: (context, themeMode) {
@@ -25,7 +33,7 @@ class FlutterBlocTemplate extends StatelessWidget {
             themeMode: themeMode,
             theme: ThemeData.light(),
             darkTheme: ThemeData.dark(),
-            home: const HomePage(),
+            home: const AuthGate(),
           );
         },
       ),

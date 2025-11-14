@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_bloc_template/bloc/theme_cubit.dart';
+import 'package:flutter_bloc_template/features/auth/cubit/auth_cubit.dart';
+import 'package:flutter_bloc_template/theme/theme_cubit.dart';
 
-import '../bloc/counter_cubit.dart';
+import '../cubit/counter_cubit.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -11,8 +12,12 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Flutter Bloc Template'),
+        title: const Text('Flutter BLoC Template'),
         actions: [
+          IconButton(
+            onPressed: () => _signOut(context),
+            icon: Icon(Icons.logout),
+          ),
           BlocBuilder<ThemeCubit, ThemeMode>(
             builder: (context, themeMode) {
               final isDark = themeMode == ThemeMode.dark;
@@ -51,5 +56,9 @@ class HomePage extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void _signOut(BuildContext ctx) {
+    ctx.read<AuthCubit>().authRepo.signOut();
   }
 }
