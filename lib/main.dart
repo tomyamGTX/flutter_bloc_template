@@ -6,7 +6,7 @@ import 'package:flutter_bloc_template/features/auth/repository/firebase_auth_rep
 import 'package:flutter_bloc_template/theme/theme_cubit.dart';
 
 import 'features/auth/cubit/auth_cubit.dart';
-import 'features/counter/cubit/counter_cubit.dart';
+import 'features/home/cubit/counter_cubit.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -40,3 +40,9 @@ class FlutterBlocTemplate extends StatelessWidget {
     );
   }
 }
+
+// Promote local shops
+//
+// Food recommendations by area
+//
+// Review system
